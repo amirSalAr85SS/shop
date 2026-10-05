@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>فروشگاه من</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 15px;
+        }
+
+        input {
+            width: 90%;
+            max-width: 500px;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .product {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px #ddd;
+        }
+
+        .product img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product h2 {
+            font-size: 18px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        button {
+            background: #111;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .cart {
+            background: white;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px #ddd;
+        }
+
+        .cart h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛍️ فروشگاه من</h1>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="جستجوی محصول..."
+        oninput="searchProducts()"
+    >
+</header>
+
+<div class="products" id="products">
+
+    <div class="product" data-name="کفش">
+        <img src="https://picsum.photos/400/300?random=1">
+        <h2>کفش اسپرت</h2>
+        <p>کفش راحت و شیک</p>
+        <div class="price">1,500,000 تومان</div>
+        <button onclick="addToCart('کفش اسپرت', 1500000)">
+            افزودن به سبد 🛒
+        </button>
+    </div>
+
+    <div class="product" data-name="ساعت">
+        <img src="https://picsum.photos/400/300?random=2">
+        <h2>ساعت مچی</h2>
+        <p>ساعت زیبا و باکیفیت</p>
+        <div class="price">2,000,000 تومان</div>
+        <button onclick="addToCart('ساعت مچی', 2000000)">
+            افزودن به سبد 🛒
+        </button>
+    </div>
+
+    <div class="product" data-name="کیف">
+        <img src="https://picsum.photos/400/300?random=3">
+        <h2>کیف دستی</h2>
+        <p>کیف مناسب استفاده روزانه</p>
+        <div class="price">900,000 تومان</div>
+        <button onclick="addToCart('کیف دستی', 900000)">
+            افزودن به سبد 🛒
+        </button>
+    </div>
+
+</div>
+
+<div class="cart">
+
+    <h2>🛒 سبد خرید</h2>
+
+    <div id="cartItems">
+        سبد خرید خالی است.
+    </div>
+
+    <h3>
+        مجموع:
+        <span id="total">0</span>
+        تومان
+    </h3>
+
+</div>
+
+<script>
+
+    let cart = [];
+    let total = 0;
+
+    function addToCart(name, price) {
+
+        cart.push({
+            name: name,
+            price: price
+        });
+
+        total += price;
+
+        showCart();
+    }
+
+    function showCart() {
+
+        const cartItems = document.getElementById("cartItems");
+        const totalElement = document.getElementById("total");
+
+        if (cart.length === 0) {
+
+            cartItems.innerHTML = "سبد خرید خالی است.";
+
+        } else {
+
+            cartItems.innerHTML = "";
+
+            cart.forEach(function(item, index) {
+
+                const div = document.createElement("div");
+
+                div.innerHTML =
+                    item.name +
+                    " - " +
+                    item.price.toLocaleString() +
+                    " تومان " +
+                    "<button onclick='removeFromCart(" +
+                    index +
+                    ")'>حذف</button>";
+
+                cartItems.appendChild(div);
+            });
+        }
+
+        totalElement.innerText = total.toLocaleString();
+    }
+
+    function removeFromCart(index) {
+
+        total -= cart[index].price;
+
+        cart.splice(index, 1);
+
+        showCart();
+    }
+
+    function searchProducts() {
+
+        const search =
+            document.getElementById("search").value.toLowerCase();
+
+        const products =
+            document.querySelectorAll(".product");
+
+        products.forEach(function(product) {
+
+            const name =
+                product.getAttribute("data-name").toLowerCase();
+
+            if (name.includes(search)) {
+
+                product.style.display = "block";
+
+            } else {
+
+                product.style.display = "none";
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>
