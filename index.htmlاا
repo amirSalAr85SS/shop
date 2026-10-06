@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -229,25 +228,4 @@
             document.getElementById("search").value.toLowerCase();
 
         const products =
-            document.querySelectorAll(".product");
-
-        products.forEach(function(product) {
-
-            const name =
-                product.getAttribute("data-name").toLowerCase();
-
-            if (name.includes(search)) {
-
-                product.style.display = "block";
-
-            } else {
-
-                product.style.display = "none";
-            }
-        });
-    }
-
-</script>
-
-</body>
-</html>
+            document.querySelecto</html>
